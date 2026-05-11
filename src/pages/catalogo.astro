@@ -1,0 +1,195 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import { PRODUCTOS } from '@data/productos';
+import { ESPECIALIDADES, buildWhatsAppUrl } from '@utils/constants';
+
+const url = Astro.url;
+const especialidadParam = url.searchParams.get('especialidad') ?? 'todas';
+
+const badgeColors: Record<string, string> = {
+  gastroenterologia: 'bg-blue-100 text-blue-700',
+  urologia: 'bg-violet-100 text-violet-700',
+  orl: 'bg-amber-100 text-amber-700',
+  otras: 'bg-neutral-100 text-neutral-600',
+};
+---
+
+<Layout
+  title="Catálogo de Insumos"
+  description="Catálogo completo de insumos médicos y descartables. Gastroenterología, Urología, ORL y más. Stock inmediato en Mendoza."
+>
+  <Header />
+
+  <main id="main-content">
+    <!-- Hero del catálogo -->
+    <section class="bg-dark py-14 px-4">
+      <div class="max-w-7xl mx-auto text-center">
+        <h1 class="text-4xl sm:text-5xl font-bold text-white">Catálogo de insumos</h1>
+        <p class="mt-4 text-neutral-300 text-lg max-w-2xl mx-auto">
+          Stock real y disponible. Todos los productos pueden solicitarse por WhatsApp.
+        </p>
+      </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="sticky top-16 z-40 bg-white border-b border-neutral-100 py-4 px-4 shadow-sm" aria-label="Filtros de catálogo">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row gap-4 items-center justify-between">
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrar por especialidad">
+          <button
+            data-filter="todas"
+            class="filtro-btn px-4 py-2 rounded-full text-sm font-medium transition-colors border"
+          >
+            Todas
+          </button>
+          {ESPECIALIDADES.map(({ id, label }) => (
+            <button
+              data-filter={id}
+              class="filtro-btn px-4 py-2 rounded-full text-sm font-medium transition-colors border"
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div class="relative w-full sm:w-72">
+          <input
+            id="buscador"
+            type="search"
+            placeholder="Buscar producto..."
+            class="w-full pl-10 pr-4 py-2 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary"
+            aria-label="Buscar productos"
+          />
+          <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="16" height="16" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0016.803 15.803z" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto mt-2">
+        <p id="contador-productos" class="text-sm text-neutral-500" aria-live="polite">
+          {PRODUCTOS.length} productos
+        </p>
+      </div>
+    </section>
+
+    <!-- Grid de productos -->
+    <section class="py-12 px-4 bg-surface">
+      <div class="max-w-7xl mx-auto">
+        <ul
+          id="grid-productos"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          role="list"
+        >
+          {PRODUCTOS.map((producto: import('@data/productos').Producto) => (
+            <li
+              data-especialidad={producto.especialidad}
+              data-nombre={producto.nombre.toLowerCase()}
+              data-tags={(producto.tags ?? []).join(' ')}
+              class="producto-card bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden flex flex-col"
+            >
+              <!-- Imagen placeholder -->
+              <div class="h-44 bg-neutral-100 flex items-center justify-center text-neutral-300">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" width="48" height="48" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                </svg>
+              </div>
+
+              <div class="flex flex-col gap-3 p-5 flex-1">
+                <!-- Badge especialidad -->
+                <span class={`self-start text-xs font-semibold px-2.5 py-1 rounded-full ${badgeColors[producto.especialidad]}`}>
+                  {ESPECIALIDADES.find(e => e.id === producto.especialidad)?.label}
+                </span>
+
+                <div class="flex-1">
+                  <h2 class="font-semibold text-dark text-base">{producto.nombre}</h2>
+                  <p class="text-neutral-600 text-sm mt-1 leading-relaxed">{producto.descripcion}</p>
+                </div>
+
+                <a
+                  href={buildWhatsAppUrl(producto.nombre)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-2 flex items-center justify-center gap-2 w-full bg-primary hover:bg-primary-hover text-white text-sm font-medium py-2.5 rounded-lg transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.124.557 4.117 1.532 5.845L.057 23.49a.5.5 0 0 0 .612.612l5.782-1.447A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.374l-.37-.22-3.834.958.977-3.763-.242-.384A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                  Solicitar presupuesto
+                </a>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Estado vacío -->
+        <div id="estado-vacio" class="hidden text-center py-20">
+          <p class="text-neutral-500 text-lg">No se encontraron productos.</p>
+          <p class="text-neutral-400 text-sm mt-2">Probá con otra búsqueda o especialidad.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline define:vars={{ especialidadParam }}>
+  const INITIAL_FILTER = especialidadParam;
+
+  const cards = document.querySelectorAll('.producto-card');
+  const buscador = document.getElementById('buscador');
+  const botones = document.querySelectorAll('.filtro-btn');
+  const contador = document.getElementById('contador-productos');
+  const estadoVacio = document.getElementById('estado-vacio');
+  const grid = document.getElementById('grid-productos');
+
+  let filtroActivo = INITIAL_FILTER;
+  let query = '';
+
+  function applyFilter() {
+    let visible = 0;
+    cards.forEach((card) => {
+      const especialidad = card.getAttribute('data-especialidad') ?? '';
+      const nombre = card.getAttribute('data-nombre') ?? '';
+      const tags = card.getAttribute('data-tags') ?? '';
+
+      const matchEspecialidad = filtroActivo === 'todas' || especialidad === filtroActivo;
+      const matchQuery = !query || nombre.includes(query) || tags.includes(query);
+
+      const show = matchEspecialidad && matchQuery;
+      (card).style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    if (contador) contador.textContent = `${visible} producto${visible !== 1 ? 's' : ''}`;
+    if (estadoVacio) estadoVacio.classList.toggle('hidden', visible > 0);
+    if (grid) grid.classList.toggle('hidden', visible === 0);
+  }
+
+  function setActiveButton(value) {
+    botones.forEach((btn) => {
+      const isActive = btn.getAttribute('data-filter') === value;
+      btn.classList.toggle('bg-primary', isActive);
+      btn.classList.toggle('text-white', isActive);
+      btn.classList.toggle('border-primary', isActive);
+      btn.classList.toggle('border-neutral-200', !isActive);
+      btn.classList.toggle('text-neutral-700', !isActive);
+    });
+  }
+
+  botones.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filtroActivo = btn.getAttribute('data-filter') ?? 'todas';
+      setActiveButton(filtroActivo);
+      applyFilter();
+    });
+  });
+
+  buscador?.addEventListener('input', (e) => {
+    query = (e.target).value.toLowerCase().trim();
+    applyFilter();
+  });
+
+  setActiveButton(filtroActivo);
+  applyFilter();
+</script>

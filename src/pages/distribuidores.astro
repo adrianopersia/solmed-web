@@ -1,0 +1,176 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Header from '@components/layout/Header.astro';
+import Footer from '@components/layout/Footer.astro';
+import Button from '@components/ui/Button.astro';
+import { CONTACT } from '@utils/constants';
+
+const beneficios = [
+  { icon: '📦', titulo: 'Stock garantizado', desc: 'Depósito propio con disponibilidad inmediata para surtir tus pedidos.' },
+  { icon: '💰', titulo: 'Precios competitivos', desc: 'Márgenes atractivos para distribuidores con escala de precios por volumen.' },
+  { icon: '🤝', titulo: 'Respaldo de 20 años', desc: 'Una empresa con trayectoria y confiabilidad comprobada en el sector.' },
+  { icon: '🚚', titulo: 'Logística eficiente', desc: 'Enviamos a todo el país con rapidez y seguimiento.' },
+];
+
+const pasos = [
+  { num: '01', titulo: 'Contactanos', desc: 'Escribinos por WhatsApp o completá el formulario con tus datos y zona de distribución.' },
+  { num: '02', titulo: 'Evaluamos tu perfil', desc: 'Analizamos la zona, el volumen estimado y las especialidades de interés.' },
+  { num: '03', titulo: 'Empezamos a trabajar', desc: 'Te enviamos las condiciones comerciales y tu primer pedido sale en 48 hs.' },
+];
+---
+
+<Layout
+  title="Distribuidores"
+  description="Sumate a la red de distribuidores de SOLMED SA. Stock garantizado, precios competitivos y respaldo de 20 años en insumos médicos."
+>
+  <Header />
+
+  <main id="main-content">
+    <!-- Hero -->
+    <section class="bg-dark py-20 px-4 text-center">
+      <div class="max-w-3xl mx-auto">
+        <p class="text-primary font-semibold text-sm uppercase tracking-wider mb-4">Modelo B2B</p>
+        <h1 class="text-4xl sm:text-5xl font-bold text-white">
+          Distribuí insumos médicos con nosotros
+        </h1>
+        <p class="mt-6 text-neutral-300 text-lg leading-relaxed">
+          Sumate a la red de distribuidores de SOLMED SA y accedé a
+          stock permanente, precios competitivos y el respaldo de 20 años de trayectoria.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <Button href="#formulario-distribuidores" size="lg">Quiero ser distribuidor</Button>
+          <Button href={CONTACT.whatsapp.distribuidores} variant="outline" size="lg" external
+            class="border-white text-white hover:bg-white/10">
+            Consultar por WhatsApp
+          </Button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Beneficios -->
+    <section class="py-20 px-4 bg-white" aria-labelledby="beneficios-heading">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 id="beneficios-heading" class="text-3xl sm:text-4xl font-bold text-dark">
+            ¿Por qué distribuir con SOLMED?
+          </h2>
+        </div>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" role="list">
+          {beneficios.map(({ icon, titulo, desc }) => (
+            <li class="bg-surface rounded-2xl p-6 border border-neutral-100 flex flex-col gap-3 text-center items-center">
+              <span class="text-3xl" aria-hidden="true">{icon}</span>
+              <h3 class="font-semibold text-dark">{titulo}</h3>
+              <p class="text-neutral-600 text-sm leading-relaxed">{desc}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Cómo funciona -->
+    <section class="py-20 px-4 bg-surface" aria-labelledby="pasos-heading">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+          <h2 id="pasos-heading" class="text-3xl sm:text-4xl font-bold text-dark">
+            ¿Cómo empezar?
+          </h2>
+          <p class="mt-4 text-neutral-600">Simple y rápido — en 3 pasos.</p>
+        </div>
+        <ol class="grid grid-cols-1 md:grid-cols-3 gap-8" role="list">
+          {pasos.map(({ num, titulo, desc }) => (
+            <li class="flex flex-col gap-4 items-center text-center md:items-start md:text-left">
+              <span class="text-5xl font-bold text-primary-light leading-none">{num}</span>
+              <h3 class="font-semibold text-dark text-xl">{titulo}</h3>
+              <p class="text-neutral-600 text-sm leading-relaxed">{desc}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- Formulario -->
+    <section class="py-20 px-4 bg-white" id="formulario-distribuidores" aria-labelledby="form-dist-heading">
+      <div class="max-w-2xl mx-auto">
+        <div class="text-center mb-10">
+          <h2 id="form-dist-heading" class="text-3xl font-bold text-dark">
+            Contactanos
+          </h2>
+          <p class="mt-3 text-neutral-600">
+            Completá el formulario y nos comunicamos a la brevedad.
+          </p>
+        </div>
+
+        <form
+          id="form-distribuidores"
+          class="bg-surface rounded-2xl p-8 border border-neutral-100 flex flex-col gap-5"
+          novalidate
+        >
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="flex flex-col gap-1.5">
+              <label for="dist-nombre" class="text-sm font-medium text-dark">Nombre y apellido</label>
+              <input id="dist-nombre" name="nombre" type="text" required placeholder="Tu nombre"
+                class="px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="dist-empresa" class="text-sm font-medium text-dark">Empresa / Razón social</label>
+              <input id="dist-empresa" name="empresa" type="text" placeholder="Tu empresa (opcional)"
+                class="px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div class="flex flex-col gap-1.5">
+              <label for="dist-telefono" class="text-sm font-medium text-dark">Teléfono / WhatsApp</label>
+              <input id="dist-telefono" name="telefono" type="tel" required placeholder="+54 9 261 ..."
+                class="px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+            </div>
+            <div class="flex flex-col gap-1.5">
+              <label for="dist-zona" class="text-sm font-medium text-dark">Zona de distribución</label>
+              <input id="dist-zona" name="zona" type="text" placeholder="Ej: Mendoza, San Juan..."
+                class="px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary" />
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-1.5">
+            <label for="dist-mensaje" class="text-sm font-medium text-dark">Mensaje (opcional)</label>
+            <textarea id="dist-mensaje" name="mensaje" rows="3" placeholder="Contanos sobre tu actividad actual..."
+              class="px-4 py-2.5 rounded-lg border border-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none"></textarea>
+          </div>
+
+          <button type="submit"
+            class="w-full bg-primary hover:bg-primary-hover text-white font-medium py-3 rounded-lg transition-colors flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.124.557 4.117 1.532 5.845L.057 23.49a.5.5 0 0 0 .612.612l5.782-1.447A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.374l-.37-.22-3.834.958.977-3.763-.242-.384A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Enviar por WhatsApp
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  const form = document.getElementById('form-distribuidores') as HTMLFormElement | null;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nombre = (form.querySelector('#dist-nombre') as HTMLInputElement).value.trim();
+    const empresa = (form.querySelector('#dist-empresa') as HTMLInputElement).value.trim();
+    const telefono = (form.querySelector('#dist-telefono') as HTMLInputElement).value.trim();
+    const zona = (form.querySelector('#dist-zona') as HTMLInputElement).value.trim();
+    const mensaje = (form.querySelector('#dist-mensaje') as HTMLTextAreaElement).value.trim();
+
+    if (!nombre || !telefono) return;
+
+    const texto = [
+      `Hola, me comunico desde el sitio web de Solmed — *Sección Distribuidores*.`,
+      `*Nombre:* ${nombre}`,
+      empresa ? `*Empresa:* ${empresa}` : null,
+      `*Teléfono:* ${telefono}`,
+      zona ? `*Zona de distribución:* ${zona}` : null,
+      mensaje ? `*Mensaje:* ${mensaje}` : null,
+    ].filter(Boolean).join('\n');
+
+    window.open(`https://wa.me/5492616672585?text=${encodeURIComponent(texto)}`, '_blank');
+  });
+</script>

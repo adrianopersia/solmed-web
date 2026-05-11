@@ -1,0 +1,31 @@
+---
+import Button from '@components/ui/Button.astro';
+import { CONTACT } from '@utils/constants';
+---
+
+<section class="bg-primary-light py-20" aria-labelledby="cta-distribuidores-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div class="text-center lg:text-left max-w-xl">
+        <p class="text-primary font-semibold text-sm uppercase tracking-wider mb-3">
+          Modelo B2B
+        </p>
+        <h2 id="cta-distribuidores-heading" class="text-3xl sm:text-4xl font-bold text-dark">
+          ¿Sos distribuidor de insumos médicos?
+        </h2>
+        <p class="mt-4 text-neutral-700 text-lg leading-relaxed">
+          Trabajamos con distribuidores en todo el país. Stock garantizado,
+          precios competitivos y respaldo de 20 años en el mercado.
+        </p>
+      </div>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <Button href="/distribuidores" size="lg">
+          Quiero ser distribuidor
+        </Button>
+        <Button href={CONTACT.whatsapp.distribuidores} variant="outline" size="lg" external>
+          Consultar por WhatsApp
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>

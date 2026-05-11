@@ -1,0 +1,134 @@
+---
+import type { NavItem } from '@app-types/index';
+import { CONTACT } from '@utils/constants';
+
+const NAV_ITEMS: NavItem[] = [
+  { label: 'Inicio', href: '/' },
+  { label: 'Catálogo', href: '/catalogo' },
+  { label: 'Nosotros', href: '/nosotros' },
+  { label: 'Distribuidores', href: '/distribuidores' },
+  { label: 'Contacto', href: '/contacto' },
+];
+
+const { pathname } = Astro.url;
+
+function isActive(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname.startsWith(href);
+}
+---
+
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-neutral-100 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-6">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-2 shrink-0" aria-label="Solmed - Inicio">
+      <span class="text-xl font-bold text-dark tracking-tight">
+        Sol<span class="text-primary">med</span>
+      </span>
+      <span class="hidden sm:block text-xs text-neutral-400 font-medium border-l border-neutral-200 pl-2 mt-0.5">
+        Soluciones Médicas
+      </span>
+    </a>
+
+    <!-- Nav Desktop -->
+    <nav aria-label="Navegación principal" class="hidden lg:block">
+      <ul class="flex items-center gap-1" role="list">
+        {NAV_ITEMS.map(({ label, href }) => (
+          <li>
+            <a
+              href={href}
+              class:list={[
+                'px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                isActive(href)
+                  ? 'bg-primary-light text-primary'
+                  : 'text-neutral-600 hover:text-dark hover:bg-neutral-50',
+              ]}
+              aria-current={isActive(href) ? 'page' : undefined}
+            >
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- CTA Desktop -->
+    <a
+      href={CONTACT.whatsapp.principal}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hidden lg:flex items-center gap-2 bg-primary hover:bg-primary-hover text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors shrink-0"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 0C5.373 0 0 5.373 0 12c0 2.124.557 4.117 1.532 5.845L.057 23.49a.5.5 0 0 0 .612.612l5.782-1.447A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.89 0-3.66-.5-5.19-1.374l-.37-.22-3.834.958.977-3.763-.242-.384A9.958 9.958 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+      Consultar
+    </a>
+
+    <!-- Hamburger Mobile -->
+    <button
+      id="mobile-menu-toggle"
+      class="lg:hidden p-2 rounded-lg text-neutral-600 hover:text-dark hover:bg-neutral-50 transition-colors"
+      aria-label="Abrir menú de navegación"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="22" height="22" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+      </svg>
+      <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" width="22" height="22" aria-hidden="true" class="hidden">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <nav
+    id="mobile-menu"
+    class="hidden lg:hidden border-t border-neutral-100 bg-white"
+    aria-label="Menú móvil"
+  >
+    <ul class="max-w-7xl mx-auto px-4 py-3 flex flex-col gap-1" role="list">
+      {NAV_ITEMS.map(({ label, href }) => (
+        <li>
+          <a
+            href={href}
+            class:list={[
+              'block px-4 py-2.5 rounded-lg text-sm font-medium transition-colors',
+              isActive(href)
+                ? 'bg-primary-light text-primary'
+                : 'text-neutral-600 hover:text-dark hover:bg-neutral-50',
+            ]}
+          >
+            {label}
+          </a>
+        </li>
+      ))}
+      <li class="pt-2 border-t border-neutral-100 mt-1">
+        <a
+          href={CONTACT.whatsapp.principal}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center gap-2 justify-center bg-primary text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors"
+        >
+          Consultar por WhatsApp
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = !menu?.classList.contains('hidden');
+    menu?.classList.toggle('hidden', isOpen);
+    toggle.setAttribute('aria-expanded', String(!isOpen));
+    iconOpen?.classList.toggle('hidden', !isOpen);
+    iconClose?.classList.toggle('hidden', isOpen);
+  });
+</script>

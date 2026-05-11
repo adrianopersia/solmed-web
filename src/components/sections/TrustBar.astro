@@ -1,0 +1,25 @@
+---
+const items = [
+  { icon: '🏆', label: '20 años de trayectoria', sub: 'En el mercado médico' },
+  { icon: '📦', label: 'Stock inmediato', sub: 'Disponibilidad permanente' },
+  { icon: '🚚', label: 'Distribución propia', sub: 'En Mendoza y alrededores' },
+  { icon: '🩺', label: 'Confianza médica', sub: 'Profesionales que nos eligen' },
+];
+---
+
+<section class="bg-primary py-10" aria-label="Por qué confiar en Solmed">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <ul
+      class="grid grid-cols-2 lg:grid-cols-4 gap-6"
+      role="list"
+    >
+      {items.map(({ icon, label, sub }) => (
+        <li class="flex flex-col items-center text-center gap-2">
+          <span class="text-3xl" aria-hidden="true">{icon}</span>
+          <span class="text-white font-semibold text-sm sm:text-base">{label}</span>
+          <span class="text-green-100 text-xs sm:text-sm">{sub}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

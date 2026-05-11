@@ -1,0 +1,68 @@
+---
+import type { SEOProps } from '@app-types/index';
+import { buildTitle, buildCanonicalURL, DEFAULT_OG_IMAGE } from '@utils/seo';
+import WhatsAppButton from '@components/layout/WhatsAppButton.astro';
+import '@styles/global.css';
+
+interface Props extends SEOProps {
+  class?: string;
+}
+
+const {
+  title,
+  description,
+  image = DEFAULT_OG_IMAGE,
+  canonicalURL = buildCanonicalURL(Astro.url.pathname, Astro.site),
+  type = 'website',
+  noindex = false,
+  class: className,
+} = Astro.props;
+
+const pageTitle = buildTitle(title);
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Preconnect para fuentes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+
+    <!-- SEO -->
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={new URL(image, Astro.site).href} />
+    <meta property="og:site_name" content="Solmed" />
+    <meta property="og:locale" content="es_AR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(image, Astro.site).href} />
+  </head>
+  <body class={className}>
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-primary focus:text-white focus:px-4 focus:py-2 focus:rounded-lg">
+      Saltar al contenido principal
+    </a>
+    <slot />
+    <WhatsAppButton />
+  </body>
+</html>

@@ -1,0 +1,53 @@
+---
+const diferenciales = [
+  {
+    titulo: 'Stock real y disponible',
+    descripcion: 'No trabajamos con stock virtual. Cada producto que mostramos está físicamente en nuestro depósito en Mendoza.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="28" height="28"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>`,
+  },
+  {
+    titulo: 'Respuesta rápida',
+    descripcion: 'Sabemos que en salud los tiempos importan. Respondemos consultas y despachamos pedidos sin demoras.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="28" height="28"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>`,
+  },
+  {
+    titulo: '20 años de trayectoria',
+    descripcion: 'Dos décadas acompañando a profesionales de la salud y pacientes en Mendoza y todo el país.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="28" height="28"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+  },
+  {
+    titulo: 'Confianza médica',
+    descripcion: 'Trabajamos con profesionales, clínicas y consultorios que nos eligen por nuestra confiabilidad y calidad de productos.',
+    icon: `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="28" height="28"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>`,
+  },
+];
+---
+
+<section class="py-20 bg-white" id="por-que-elegirnos" aria-labelledby="elegirnos-heading">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <h2 id="elegirnos-heading" class="text-3xl sm:text-4xl font-bold text-dark">
+        ¿Por qué elegirnos?
+      </h2>
+      <p class="mt-4 text-neutral-600 max-w-xl mx-auto">
+        Más de 20 años con un solo compromiso: que los insumos lleguen cuando se necesitan.
+      </p>
+    </div>
+
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-8" role="list">
+      {diferenciales.map(({ titulo, descripcion, icon }) => (
+        <li class="flex gap-5 p-6 rounded-2xl border border-neutral-100 bg-surface">
+          <span
+            class="shrink-0 flex items-center justify-center w-12 h-12 rounded-xl bg-primary-light text-primary"
+            aria-hidden="true"
+            set:html={icon}
+          />
+          <div>
+            <h3 class="font-semibold text-dark text-lg mb-1">{titulo}</h3>
+            <p class="text-neutral-600 text-sm leading-relaxed">{descripcion}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
